@@ -1,27 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Playlist EMAÚS</title>
-
-<link rel="stylesheet" href="css/style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emaús</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-<div class="contenedor">
+<div class="hero">
 
-<h1>🎵 PLAYLIST EMAÚS</h1>
+    <img src="img/portada.png" class="cover">
 
-<p>Haz clic sobre una canción para reproducirla.</p>
+    <div class="overlay">
 
-<audio id="audio" controls></audio>
+        <h1>Emaús</h1>
 
-<ul id="playlist"></ul>
+        <p>"Quédate con nosotros, porque atardece..."</p>
+
+        <small>Lucas 24:29</small>
+
+    </div>
 
 </div>
+
+<div class="player">
+
+    <h2 id="tituloCancion">Selecciona una canción</h2>
+
+    <audio id="audio"></audio>
+
+    <div class="barra">
+
+        <span id="tiempoActual">0:00</span>
+
+        <input type="range" id="progreso" value="0">
+
+        <span id="duracion">0:00</span>
+
+    </div>
+
+    <div class="controles">
+
+        <button id="anterior">⏮</button>
+
+        <button id="playPause">▶</button>
+
+        <button id="siguiente">⏭</button>
+
+    </div>
+
+    <div class="volumen">
+
+        🔊
+
+        <input type="range" id="volumen" min="0" max="100" value="100">
+
+    </div>
+
+</div>
+
+<ul id="playlist"></ul>
 
 <script src="js/script.js"></script>
 

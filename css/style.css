@@ -1,43 +1,180 @@
-body{
+*{
     margin:0;
-    background:#121212;
-    color:white;
-    font-family:Arial, Helvetica, sans-serif;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
 }
 
-.contenedor{
-    max-width:800px;
-    margin:30px auto;
-    padding:20px;
+body{
+    background:linear-gradient(180deg,#d5c19a,#f5f3ed);
+    color:#333;
 }
 
-h1{
+.hero{
+    position:relative;
+    width:100%;
+    height:420px;
+    overflow:hidden;
+}
+
+.cover{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    animation:zoom 20s infinite alternate;
+}
+
+@keyframes zoom{
+    from{transform:scale(1);}
+    to{transform:scale(1.08);}
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to top,rgba(0,0,0,.75),rgba(0,0,0,.15));
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+    padding-bottom:40px;
     text-align:center;
+    color:white;
+}
+
+.overlay h1{
+    font-size:52px;
+    margin-bottom:10px;
+}
+
+.overlay p{
+    font-size:20px;
+    font-style:italic;
+    margin-bottom:5px;
+}
+
+.overlay small{
+    opacity:.9;
+}
+
+.player{
+    width:92%;
+    max-width:700px;
+    margin:-40px auto 25px;
+    background:white;
+    border-radius:25px;
+    padding:25px;
+    box-shadow:0 15px 35px rgba(0,0,0,.2);
+    position:relative;
+    z-index:5;
+}
+
+#tituloCancion{
+    text-align:center;
+    color:#8d6d24;
+    margin-bottom:20px;
 }
 
 audio{
-    width:100%;
-    margin:20px 0;
+    display:none;
 }
 
-ul{
-    list-style:none;
-    padding:0;
+.barra{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-li{
-    padding:12px;
-    margin-bottom:8px;
-    background:#1e1e1e;
-    border-radius:8px;
+#progreso{
+    flex:1;
+    cursor:pointer;
+}
+
+.controles{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin:25px 0;
+}
+
+.controles button{
+    width:65px;
+    height:65px;
+    border:none;
+    border-radius:50%;
+    background:#b58b28;
+    color:white;
+    font-size:26px;
     cursor:pointer;
     transition:.3s;
 }
 
-li:hover{
-    background:#333;
+.controles button:hover{
+    transform:scale(1.1);
+    background:#8b6b21;
 }
 
-.activa{
-    background:#2563eb;
+.volumen{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.volumen input{
+    flex:1;
+}
+
+#playlist{
+    width:92%;
+    max-width:700px;
+    margin:20px auto 60px;
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 8px 25px rgba(0,0,0,.15);
+}
+
+#playlist li{
+    list-style:none;
+    padding:18px 22px;
+    border-bottom:1px solid #eee;
+    cursor:pointer;
+    transition:.3s;
+}
+
+#playlist li:hover{
+    background:#f7f1e1;
+}
+
+#playlist li.activa{
+    background:#b58b28;
+    color:white;
+    font-weight:bold;
+}
+
+@media(max-width:768px){
+
+.hero{
+height:300px;
+}
+
+.overlay h1{
+font-size:40px;
+}
+
+.overlay p{
+font-size:16px;
+}
+
+.player{
+margin-top:-25px;
+padding:18px;
+}
+
+.controles button{
+width:55px;
+height:55px;
+font-size:22px;
+}
+
 }

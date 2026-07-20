@@ -1,56 +1,126 @@
-const canciones = [
-"01 CAMINO DE EMAÚS.mp3",
-"02 ALABANZA ESPIRITU SANTO.mp3",
-"03 AMIGOS DE VERDAD DE REY RUIZ.mp3",
-"04 Alianza de Amor - Hermana Glenda.mp3",
-"05  ME HAS LLAMADO SEÑOR.mp3",
-"06 DEIA QUE EL PADRE SEA EL JARDINERO.mp3",
-"07 NADIE TE AMA COMO YO.mp3",
-"08 ALMA MISIONERA.mp3",
-"09 LE HE PRESTADO MI MANO A JESUS.mp3",
-"10 PESCADOR DE HOMBRES.mp3",
-"11 ORACIÓN JESUS I CAPILLA.mp3",
-"12 ESTOY A LA PUERTA Y LLAMO.mp3",
-"13 LLEVATE MI TRISTEZA.mp3",
-"14 ESTE ES TU DÍA. Ministerio Musica Emaus SFJ.mp3",
-"15 POR QUE ME SIGUES AMANDO.mp3",
-"16 ME SEDUJISTE.mp3",
-"17 TU MI ALFARERO.mp3",
-"18 ME LEVANTARE.mp3",
-"19 LA FAMILIA.mp3",
-"20 SIERVO POR AMOR.mp3",
-"21 POPURRI EMAUS.mp3",
-"22 SI CONOCIERAS COMO TE AMO - Hna.mp3",
-"23 PIDE Y SE TE DARA (1).mp3",
-"24 Al Final Video Oficial Lilly Goodman.mp3",
-"25.mp3",
-"26 El Ciego de Jerico by Jorge Rivera.mp3",
-"27.mp3",
-"28 Mira lo que ha hizo en mi Jesús Emaus NY Band.mp3",
-"29 No hay lugar mas alto Miel San Marcos feat christine d clario con letra.mp3"
-];
-
 const audio = document.getElementById("audio");
 const playlist = document.getElementById("playlist");
+
+const btnAnterior = document.getElementById("anterior");
+const btnPlay = document.getElementById("playPause");
+const btnSiguiente = document.getElementById("siguiente");
+
+const tituloCancion = document.getElementById("tituloCancion");
+const progreso = document.getElementById("progreso");
+const tiempoActual = document.getElementById("tiempoActual");
+const duracion = document.getElementById("duracion");
+const volumen = document.getElementById("volumen");
+
+let indiceActual = 0;
+let listaLi = [];
+
+function formatearTiempo(segundos) {
+    if (isNaN(segundos)) return "0:00";
+    const min = Math.floor(segundos / 60);
+    const seg = Math.floor(segundos % 60);
+    return `${min}:${seg < 10 ? "0" : ""}${seg}`;
+}
+
+function cargarCancion(indice) {
+    indiceActual = indice;
+
+    audio.src = "canciones/" + canciones[indice];
+
+    tituloCancion.textContent = canciones[indice].replace(/\.(mp3|wma|wmv)$/i, "");
+
+    listaLi.forEach(li => li.classList.remove("activa"));
+    listaLi[indice].classList.add("activa");
+}
+
+function reproducir(indice) {
+    cargarCancion(indice);
+    audio.play();
+    btnPlay.textContent = "⏸";
+}
 
 canciones.forEach((nombre, index) => {
 
     const li = document.createElement("li");
 
-    li.textContent = nombre.replace(/\.(mp3|wma|wmv)$/i,"");
+    li.textContent = nombre.replace(/\.(mp3|wma|wmv)$/i, "");
 
     li.addEventListener("click", () => {
-
-        audio.src = "canciones/" + nombre;
-
-        audio.play();
-
-        document.querySelectorAll("#playlist li").forEach(x=>x.classList.remove("activa"));
-
-        li.classList.add("activa");
-
+        reproducir(index);
     });
 
     playlist.appendChild(li);
+
+    listaLi.push(li);
+
+});
+
+btnPlay.addEventListener("click", () => {
+
+    if (!audio.src) {
+        reproducir(0);
+        return;
+    }
+
+    if (audio.paused) {
+        audio.play();
+        btnPlay.textContent = "⏸";
+    } else {
+        audio.pause();
+        btnPlay.textContent = "▶";
+    }
+
+});
+
+btnSiguiente.addEventListener("click", () => {
+
+    indiceActual++;
+
+    if (indiceActual >= canciones.length) indiceActual = 0;
+
+    reproducir(indiceActual);
+
+});
+
+btnAnterior.addEventListener("click", () => {
+
+    indiceActual--;
+
+    if (indiceActual < 0) indiceActual = canciones.length - 1;
+
+    reproducir(indiceActual);
+
+});
+
+audio.addEventListener("timeupdate", () => {
+
+    progreso.max = audio.duration || 0;
+
+    progreso.value = audio.currentTime;
+
+    tiempoActual.textContent = formatearTiempo(audio.currentTime);
+
+    duracion.textContent = formatearTiempo(audio.duration);
+
+});
+
+progreso.addEventListener("input", () => {
+
+    audio.currentTime = progreso.value;
+
+});
+
+volumen.addEventListener("input", () => {
+
+    audio.volume = volumen.value / 100;
+
+});
+
+audio.addEventListener("ended", () => {
+
+    indiceActual++;
+
+    if (indiceActual >= canciones.length) indiceActual = 0;
+
+    reproducir(indiceActual);
 
 });
